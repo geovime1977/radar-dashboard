@@ -75,11 +75,19 @@ def require_auth():
 
 # ── DATA SOURCE — GitHub ou vault local ───────────────────────────────────────
 def _gh_cfg():
-    gh = st.secrets.get("github", {})
-    token = gh.get("token", "")
-    owner = gh.get("owner", "")
-    repo  = gh.get("repo", "")
-    path  = gh.get("path", "leads")
+    # secrets.toml (local) ou variáveis de ambiente (Railway)
+    token = os.environ.get("GITHUB_TOKEN", "")
+    owner = os.environ.get("GITHUB_OWNER", "")
+    repo  = os.environ.get("GITHUB_REPO", "")
+    path  = os.environ.get("GITHUB_LEADS_PATH", "leads")
+    try:
+        gh = st.secrets.get("github", {})
+        token = gh.get("token", token)
+        owner = gh.get("owner", owner)
+        repo  = gh.get("repo", repo)
+        path  = gh.get("path", path)
+    except Exception:
+        pass
     if not (token and owner and repo and not token.startswith("ghp_xxxx")):
         return None
     return {"token": token, "owner": owner, "repo": repo, "path": path}
