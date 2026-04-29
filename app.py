@@ -64,6 +64,12 @@ def login_page():
 
 def require_auth():
     if not st.session_state.get("auth"):
+        users = _load_users()
+        if not users:
+            # sem usuários configurados — acesso livre
+            st.session_state.auth = True
+            st.session_state.user = "admin"
+            return
         login_page()
         st.stop()
 
