@@ -330,6 +330,15 @@ def main():
     st.set_page_config(page_title="Radar · EE", page_icon="🔍",
                        layout="wide", initial_sidebar_state="expanded")
 
+    # debug temporário — remover após confirmar
+    cfg = _gh_cfg()
+    with st.expander("🔧 Debug config", expanded=False):
+        st.write("gh_cfg:", cfg)
+        try:
+            st.write("secrets keys:", list(st.secrets.keys()))
+        except Exception as e:
+            st.write("secrets erro:", str(e))
+
     leads = load_leads()
     last_date, total = get_summary()
     st.title("🔍 Radar de Prospecção · Eixo Estratégico")
