@@ -24,7 +24,23 @@ VEREDITO_ICON = {"Prioritário":"🔴","Qualificado":"🟡","Monitorar":"🟢","
 STATUS_ICON   = {"novo":"🆕","qualificado":"✅","sdr_acionado":"📱",
                  "em_conversa":"💬","cliente":"🏆","arquivado":"🗄️"}
 
-# ── AUTH — multi-usuário via secrets.toml ─────────────────────────────────────
+# ── AUTH — secrets.toml (local) ou variável DASHBOARD_USERS (Railway) ────────
+def _load_users():
+    # 1. Tenta secrets.toml
+    try:
+        return dict(st.secrets.get("users", {}))
+    except Exception:
+        pass
+    # 2. Fallback: variável de ambiente DASHBOARD_USERS=usuario:senha,usuario2:senha2
+    raw = os.environ.get("DASHBOARD_USERS", "")
+    if raw:
+        users = {}
+        for pair in raw.split(","):
+            parts = pair.strip().split(":", 1)
+            users[parts[0].strip()] = parts[1].strip() if len(parts) > 1 else ""
+        return users
+    return {}
+
 def login_page():
     st.set_page_config(page_title="Login · Radar", page_icon="🔐", layout="centered")
     _, col, _ = st.columns([1, 2, 1])
@@ -38,7 +54,7 @@ def login_page():
             senha   = st.text_input("Senha", type="password")
             ok      = st.form_submit_button("Entrar", use_container_width=True)
             if ok:
-                users = dict(st.secrets.get("users", {}))
+                users = _load_users()
                 if usuario in users and users[usuario] == senha:
                     st.session_state.auth  = True
                     st.session_state.user  = usuario
