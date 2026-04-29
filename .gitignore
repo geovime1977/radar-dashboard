@@ -1,0 +1,12 @@
+# Ambiente virtual Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Secrets — NUNCA suba senhas para o GitHub
+.streamlit/secrets.toml
+
+# macOS
+.DS_Store
