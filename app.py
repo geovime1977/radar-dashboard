@@ -1,5 +1,5 @@
 """
-dashboard/app.py  —  Radar de Prospecção · Eixo Estratégico
+dashboard/app.py  —  Radar de Prospecção · HRV
 Multi-usuário + GitHub (remoto) com fallback para vault local.
 
 Localmente:  lê Radar/leads/*.md  do vault Obsidian
@@ -47,7 +47,7 @@ def login_page():
     with col:
         st.markdown("<br><br>", unsafe_allow_html=True)
         st.markdown("## 🔍 Radar de Prospecção")
-        st.markdown("**Eixo Estratégico**")
+        st.markdown("**HRV**")
         st.divider()
         with st.form("login"):
             usuario = st.text_input("Usuário")
@@ -236,14 +236,14 @@ def gerar_sdr(lead):
     t = lead["titulo"][:50]
     tipos = lead["tipos"]
     if "captou_recursos" in tipos:
-        return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *Eixo Estratégico* — consultoria especializada em eficiência operacional pós-captação.\n\nEmpresas nessa fase frequentemente precisam transformar o capital em estrutura sustentável. Em 30 min mostro um diagnóstico inicial gratuito com os principais riscos de escala.\n\nTeria disponibilidade esta semana?"
+        return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *HRV* — consultoria especializada em eficiência operacional pós-captação.\n\nEmpresas nessa fase frequentemente precisam transformar o capital em estrutura sustentável. Em 30 min mostro um diagnóstico inicial gratuito com os principais riscos de escala.\n\nPosso enviar mais detalhes por aqui ou por e-mail?"
     if "precisa_captar" in tipos:
-        return f"Olá! Acompanhei as movimentações de *{t}*.\n\nSou da *Eixo Estratégico*. Ajudamos empresas a estruturar a tese de captação com base em dados operacionais — o que aumenta atratividade para investidores.\n\nPosso mostrar como funciona em 20 min?"
+        return f"Olá! Acompanhei as movimentações de *{t}*.\n\nSou da *HRV*. Ajudamos empresas a estruturar a tese de captação com base em dados operacionais — o que aumenta atratividade para investidores.\n\nPosso enviar um material explicativo por e-mail ou conectar no LinkedIn?"
     if "dores_operacionais" in tipos:
-        return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *Eixo Estratégico* — diagnóstico de gargalos operacionais e planos de ação quantitativos.\n\nPosso enviar um estudo rápido com os principais pontos de melhoria do seu setor?"
+        return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *HRV* — diagnóstico de gargalos operacionais e planos de ação quantitativos.\n\nPosso enviar um estudo rápido com os principais pontos de melhoria do seu setor. Prefere por e-mail ou Instagram?"
     if "cenarios" in tipos:
-        return f"Olá! Acompanhei as movimentações de *{t}*.\n\nSou da *Eixo Estratégico*. Desenvolvemos estudos de cenários prospectivos (horizonte 3–15 anos) para apoiar decisões em momentos de transição.\n\nPosso enviar um exemplo aplicado ao seu setor?"
-    return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *Eixo Estratégico* — consultoria estratégica com foco em decisões baseadas em dados.\n\nPosso mostrar um diagnóstico inicial gratuito em 30 min. Teria disponibilidade?"
+        return f"Olá! Acompanhei as movimentações de *{t}*.\n\nSou da *HRV*. Desenvolvemos estudos de cenários para médio e longo prazo (horizonte 3–15 anos) para apoiar decisões estratégicas em momentos de transição.\n\nPosso enviar um exemplo aplicado ao seu setor por e-mail ou LinkedIn?"
+    return f"Olá! Vi a notícia sobre *{t}*.\n\nSou da *HRV* — consultoria estratégica com foco em decisões baseadas em dados.\n\nPosso compartilhar um diagnóstico inicial gratuito. Prefere por e-mail, Instagram ou LinkedIn?"
 
 # ── UI ────────────────────────────────────────────────────────────────────────
 def sidebar(leads):
@@ -322,7 +322,7 @@ def render_leads(leads):
                     st.markdown("**Mensagem SDR:**")
                     st.text_area("", gerar_sdr(l), height=190, key=f"{k}_msg",
                                  label_visibility="collapsed")
-                    st.caption("Copie → WhatsApp / Tomik CRM")
+                    st.caption("Copie → LinkedIn / Instagram / E-mail")
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
@@ -341,7 +341,7 @@ def main():
 
     leads = load_leads()
     last_date, total = get_summary()
-    st.title("🔍 Radar de Prospecção · Eixo Estratégico")
+    st.title("🔍 Radar de Prospecção · HRV")
     fonte_label = "GitHub ☁️" if _has_github() else "Vault local 💾"
     st.caption(f"Último refresh: **{last_date}**  ·  {total} notícias processadas  "
                f"·  {len(leads)} leads  ·  Fonte: {fonte_label}")
